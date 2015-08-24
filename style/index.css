@@ -167,7 +167,7 @@ hr {
 }
 
 .links a {
-    margin-bottom: 15px;
+    margin-bottom: 25px;
 }
 
 .dlicon {
@@ -175,6 +175,21 @@ hr {
     float:left;
     margin-right: 10px;
     opacity: .75;
+}
+
+.profile {
+    width: 100px;
+    margin: 0 15px 0 0;
+    float:left;
+}
+
+.col {
+    float:left;
+    width: calc(100% - 115px);
+}
+
+.col p:first-child {
+    margin-top: 0;
 }
 
 .meta {
