@@ -1,0 +1,196 @@
+body {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-weight: 200;
+    padding: 0;
+    margin: 0;
+}
+
+header, footer {
+    padding: 50px;
+    background-color: #e3e3e3;
+    text-transform: initial;
+}
+
+header {
+    border-bottom: 1px solid #ddd;
+}
+
+footer {
+    border-top: 1px solid #ddd;
+    text-align: right;
+}
+
+p, dd {
+    font-size: .9em;
+    line-height: 1.5em;
+}
+
+a {
+    text-decoration: none;
+    color: #666;
+}
+
+a:hover {
+    background-color: #fff;
+    color: #333;
+}
+
+a:hover img {
+    opacity: 1;
+}
+
+h1, h2, h3 {
+    text-transform: uppercase;
+}
+
+h1 {
+    color: #666;
+    font-size: 1.4em;
+    font-weight: 200;
+}
+
+h2 {
+    font-weight: 500;
+    font-size: 1.2em;
+    margin-top: 0;
+}
+
+h3, dt {
+    font-size: .9em;
+    font-weight: 500;
+}
+
+article {
+    width: 50%;
+    float: left;
+}
+
+dl {
+
+}
+
+dt {
+    float: left;
+}
+
+dd {
+    float:right;
+    width: 65%;
+    margin-bottom: 15px;
+}
+
+hr {
+    border-style: inherit;
+    border-bottom: 1px solid #ccc;
+    width: 25%;
+    height: 1px;
+}
+
+
+#name {
+    font-size: 2em;
+    font-weight: 100;
+}
+
+#name .last {
+    font-weight: 300;
+}
+
+.items {
+    float: right;
+}
+
+.items ul {
+    margin: 0;
+}
+
+.items ul li {
+    display: inline-block;
+}
+
+.items ul li a {
+    padding: 10px;
+    border-radius: 3px;
+}
+
+.content {
+    padding: 0 50px;
+    max-width: 960px;
+    margin: 0 auto;
+}
+
+.section {
+    border-bottom: 1px solid #e3e3e3;
+    padding: 50px 0;
+}
+
+.section:last-child {
+    border-bottom: none;
+}
+
+.sample {
+    margin: 50px 0;
+    padding-top: 50px;
+}
+
+.sample:first-of-type {
+    padding-top: 0;
+}
+
+.sample:last-child {
+    margin-bottom: 0;
+}
+
+.video {
+    text-align: right;
+    width: calc(50% - 50px);
+    margin: 0 50px 50px 0;
+    float: left;
+}
+
+.note {
+    color: #666;
+    font-style: italic;
+}
+
+.about {
+    float: left;
+    width: calc(60% - 51px);
+    margin-right: 50px;
+    padding-right: 50px;
+    border-right: 1px solid #e3e3e3;
+}
+
+.links {
+    float: left;
+    width: calc(40% - 50px);
+}
+
+.links a {
+    margin-bottom: 15px;
+}
+
+.dlicon {
+    width: 35px;
+    float:left;
+    margin-right: 10px;
+    opacity: .75;
+}
+
+.meta {
+    float:left;
+}
+
+.meta h3 {
+    margin: 0;
+}
+
+.file {
+    text-transform: initial;
+}
+
+.clearfix {
+    display: table;
+    content: "";
+    clear: both;
+}
