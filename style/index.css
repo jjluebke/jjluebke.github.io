@@ -96,6 +96,24 @@ hr {
     font-weight: 300;
 }
 
+.main {
+    position: relative;
+    z-index: 1000;
+}
+
+.follow {
+    background-color: #fff;
+    position: fixed;
+    top: 0;
+    z-index: 999;
+    width: calc(100% - 25px);
+    padding: 10px;
+}
+
+.follow #name {
+    font-size: 1.2em;
+}
+
 .items {
     float: right;
 }
