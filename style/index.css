@@ -148,6 +148,30 @@ hr {
     float: left;
 }
 
+.center .video {
+    width: 100%;
+    float: none;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.center article {
+    padding: 50px;
+    float: none;
+    width: initial;
+}
+
+.center dl {
+    width: 50%;
+    float: left;
+}
+
+.center .summary {
+    float: left;
+    margin-left: 50px;
+    width: calc(50% - 50px);
+}
+
 .note {
     color: #666;
     font-style: italic;
