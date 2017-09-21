@@ -92,7 +92,7 @@ hr {
     font-weight: 100;
 }
 
-#name.last {
+#name .last {
     font-weight: 300;
 }
 
