@@ -1,6 +1,6 @@
 body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    font-weight: 200;
+    font-weight: 300;
     padding: 0;
     margin: 0;
 }
@@ -21,7 +21,7 @@ footer {
 }
 
 p, dd {
-    font-size: .9em;
+    font-size: 1.0em;
     line-height: 1.5em;
 }
 
@@ -92,7 +92,7 @@ hr {
     font-weight: 100;
 }
 
-#name .last {
+#name.last {
     font-weight: 300;
 }
 
