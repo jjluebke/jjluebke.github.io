@@ -1,0 +1,189 @@
+<div class="section">
+    <h1>work samples</h1>
+    <section class="sample">
+
+        <div class="video">
+            <video class="demo" controls style="width:300px;height:540px;" poster="videos/gears-mobile-poster.png">
+              <source src="videos/gears-mobile.webm"
+                      type='video/webm;codecs="vp8, vorbis"' />
+              <source src="videos/gears-mobile.mp4"
+                      type='video/mp4;codecs="avc1.42E01E, mp4a.40.2"' />
+            </video>
+        </div>
+
+        <article>
+            <h2>Green BEAN Delivery</h2>
+
+            <dl>
+                <dt>Project type:</dt>
+                <dd>Public mobile app, website</dd>
+                <div class="clearfix"></div>
+
+                <dt>Plaform:</dt>
+                <dd>iOS and Android</dd>
+                <div class="clearfix"></div>
+
+                <dt>Stack:</dt>
+                <dd>React Native, PHP, MySQL</dd>
+                <div class="clearfix"></div>
+
+                <dt>Contributions:</dt>
+                <dd>New mobile app built on React Native for iOS and Android, including new REST API for all communication between app and server-side application.<br />
+                Development, testing and distribution of the first mobile app for Green BEAN Delivery.</dd>
+                <div class="clearfix"></div>
+
+                <dt>Challenge:</dt>
+                <dd>Create a mobile app to work seemlessly with our existing desktop application and customer-base while providing a new, more refined shopping experience.</dd>
+                <div class="clearfix"></div>
+
+            </dl>
+
+            <h3>Summary:</h3>
+            <p>Green BEAN Delviery is an online organic and natural food delivery subscription service for customers and businesses. The app provideded an alternative to the desktop site, allowing for faster and easier shopping experience. The service allows for a user to customize their order over a period of several days. The app allowed users to more easily add items to their order throughout the week, without having to sit down to a computer to do so.</p>
+
+            <p>Additionally, the app features a customized home feed with specials, featured items and recipies as well as promotions and communcation through push messages.</p>
+        </article>
+
+    </section>
+
+    <hr />
+
+    <section class="sample clearfix">
+
+        <div class="video">
+            <video class="demo" controls style="width:300px;height:540px;" poster="videos/haven-poster.png">
+              <source src="videos/haven-crop.webm"
+                      type='video/webm;codecs="vp8, vorbis"' />
+              <source src="videos/haven-crop.mp4"
+                      type='video/mp4;codecs="avc1.42E01E, mp4a.40.2"' />
+            </video>
+        </div>
+
+        <article>
+            <h2>haven</h2>
+
+            <dl>
+                <dt>Project type:</dt>
+                <dd>Public mobile app, website</dd>
+                <div class="clearfix"></div>
+
+                <dt>Plaform:</dt>
+                <dd>iOS and Android</dd>
+                <div class="clearfix"></div>
+
+                <dt>Stack:</dt>
+                <dd>AngularJS on Cordova, NodeJS and MongoDB on Heroku</dd>
+                <div class="clearfix"></div>
+
+                <dt>Contributions:</dt>
+                <dd>Interaction design, UI design, full stack development as part of a team of 4 full-time developers. Also performed user testing and conducted user-interviews to improve prouct design and fit.</dd>
+                <div class="clearfix"></div>
+
+                <dt>Challenge:</dt>
+                <dd>Develop a product for a unproven market of digital management of home services and the tools for homeowners to take better care of their homes.</dd>
+                <div class="clearfix"></div>
+
+            </dl>
+
+            <h3>Summary:</h3>
+            <p>Haven provided services to homeowners that helped them to both understand what they need to do to maintain their home as well as making it easy to hire professionals. Initially, consumers used Haven via an installed mobile app, but was later expanded to incorporate a responsive web app and even phone and SMS service. Order tracking was managed using custom, web-based admin tools, Trello and on-staff customer service.</p>
+        </article>
+
+    </section>
+
+    <hr />
+
+    <section class="sample clearfix">
+
+        <div class="video">
+            <video class="demo" controls style="width:404px;height:525px;" poster="videos/ollier-poster.png">
+              <source src="videos/ollier-crop.webm"
+                      type='video/webm;codecs="vp8, vorbis"' />
+              <source src="videos/ollier-crop.mp4"
+                      type='video/mp4;codecs="avc1.42E01E, mp4a.40.2"' />
+            </video>
+        </div>
+
+        <article>
+            <h2>ollier masonry</h2>
+
+            <dl>
+                <dt>Project type:</dt>
+                <dd>Private mobile app</dd>
+                <div class="clearfix"></div>
+
+                <dt>Plaform:</dt>
+                <dd>iOS</dd>
+                <div class="clearfix"></div>
+
+                <dt>Stack:</dt>
+                <dd>Javascript/HTML on Cordova, NodeJS and Postgres on Heroku</dd>
+                <div class="clearfix"></div>
+
+                <dt>Contributions:</dt>
+                <dd>End-to-end design, development and distribution</dd>
+                <div class="clearfix"></div>
+
+                <dt>Challenge:</dt>
+                <dd>Masonry company needed to be able to manage workforce of more than 60 employees at many job sites. Previously, this work was handled by a single individual on paper.</dd>
+                <div class="clearfix"></div>
+
+            </dl>
+
+            <h3>Summary:</h3>
+            <p>The app and service allow for several supervisors to log in to create jobs, assign workers to those jobs, and track resources including time and automated job site reports. Non-privileged employees can view the app, to see when they are scheduled to work, at which job, and who with. The app is distributed in a closed system via the Apple Enterprise program.</p>
+
+            <p>Office administrators can log in to a web-based reporting page, where they can review timesheets for a given job/employee as well as review daily job reports. This serves as a historical record of work performed and any issues encountered.</p>
+        </article>
+
+    </section>
+
+    <hr />
+
+    <section class="sample clearfix center">
+
+        <div class="video">
+            <video class="demo" controls style="width:800px;height:450px;" poster="videos/pigeon-poster.png">
+              <source src="videos/pigeon-crop.webm"
+                      type='video/webm;codecs="vp8, vorbis"' />
+              <source src="videos/pigeon-crop.mp4"
+                      type='video/mp4;codecs="avc1.42E01E, mp4a.40.2"' />
+            </video>
+        </div>
+
+        <article>
+            <h2>pigeon</h2>
+
+            <dl>
+                <dt>Project type:</dt>
+                <dd>Public project on GitHub</dd>
+                <div class="clearfix"></div>
+
+                <dt>Plaform:</dt>
+                <dd>iOS</dd>
+                <div class="clearfix"></div>
+
+                <dt>Stack:</dt>
+                <dd>Swift, NodeJS and SocketIO</dd>
+                <div class="clearfix"></div>
+
+                <dt>Contributions:</dt>
+                <dd>End-to-end design, development</dd>
+                <div class="clearfix"></div>
+
+                <dt>Challenge:</dt>
+                <dd>Develop an UAV controller using a mobile phone with ground to vehicle communication over wireless networks in place of traditional radio signal.</dd>
+                <div class="clearfix"></div>
+
+            </dl>
+
+            <div class="summary">
+                <h3>Summary:</h3>
+                <p>Pigeon is a personal, public project focusing on making it easier to control and fly UAVs. Pigeon is an app that runs on a phone, replacing the need for propritary hardware and external sensors. Setup and control is all preformed through remote software and all communication is over TCP/IP.</p>
+
+                <p>Pigeon is not yet airborne, however is very close. The video above depics a recent "bench" test, demonstrating compensation based on craft orientation. Unfortunately, evidence from these tests indicate that bluetooth communication from the phone to the motors is simply not fast enough to prevent oscillations in compensation.</p>
+            </div>
+        </article>
+
+    </section>
+</div>
