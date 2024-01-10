@@ -71,6 +71,7 @@ h2 {
 h3, dt {
     font-size: .9em;
     font-weight: 500;
+    margin-top: 0
 }
 
 dt {
@@ -90,9 +91,19 @@ hr {
     height: 1px;
 }
 
+ul {
+    margin: 0;
+    padding: 0;
+}
+
 ul li {
     margin-bottom: 10px;
     list-style: circle;
+}
+
+strong {
+    font-weight: 500;
+    font-size: 1em;
 }
 
 
@@ -291,6 +302,10 @@ ul li {
   width: 960px;
   height: 240px;
   margin: 0;
+}
+.gallery.inline figure {
+    width: 672px;
+    height: auto;
 }
 .gallery figure:first-child {
     display: block;
