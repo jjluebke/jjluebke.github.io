@@ -1,711 +1,629 @@
-<!doctype html>
-<html>
-<head>
+---
+layout: default
+---
 
-<title>Jason Luebke</title>
+<div class="section center">
+    <div class="about">
+        <h1>Outreach | Filter Design</h1>
 
-<meta charset="utf-8"
-<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+        <p>Outreach is a sales engagement platform, with features built on top of the customer’s CRM data, mostly concerning the opportunity object. This object is a list of all potential sales opportunities in an organization’s pipeline and can often be made up of hundreds of fields. I was tasked with describing, designing and ultimately building a portable and flexible filter-builder, handling very simple to very complex use cases, mostly targeting the customer’s opportunity object.</p>
 
-<link href="style/index.css" rel="stylesheet" type="text/css" />
+        <p>The following are high-level takeaways, my comprehensive design document can be read in-full here:</p>
+  </div>
+</div>
 
-<!-- photoswipe -->
-<link rel="stylesheet" href="bin/PhotoSwipe/dist/photoswipe.css">
-<link rel="stylesheet" href="bin/PhotoSwipe/dist/default-skin/default-skin.css">
+<div class="section center">
 
-<script src="bin/PhotoSwipe/dist/photoswipe.min.js"></script>
-<script src="bin/PhotoSwipe/dist/photoswipe-ui-default.min.js"></script>
-
-</head>
-<body>
-
-<section class="container">
-
-    <header class="main">
-        <section class="content">
-            <nav>
-                <div class="items">
-                    <ul>
-                        <li><a href="mailto: jjluebke@gmail.com">jjluebke@gmail.com</a></li>
-                        <li><a href="https://github.com/jjluebke"><img src="images/github.png" class="dlicon" /></a></li>
-                        <li><a href="https://www.linkedin.com/pub/jason-luebke/7/448/7a6"><img src="images/in.png" class="dlicon" /></a></li>
-                        <li><a href="JasonLuebke.pdf"><img src="images/download.png" class="dlicon" /></a></li>
-                    </ul>
-                </div>
-                <a href="/"><div id="name"><span class="first">Jason</span><span class="last">Luebke</span></div></a>
-            </nav>
-        </section>
-    </header>
-
-    <header class="follow">
-        <section class="content">
-            <nav>
-                <div class="items">
-                    <ul>
-                        <li><a href="mailto: jjluebke@gmail.com">jjluebke@gmail.com</a></li>
-                        <li><a href="https://github.com/jjluebke"><img src="images/github.png" class="dlicon" /></a></li>
-                        <li><a href="https://www.linkedin.com/pub/jason-luebke/7/448/7a6"><img src="images/in.png" class="dlicon" /></a></li>
-                        <li><a href="JasonLuebke.pdf"><img src="images/download.png" class="dlicon" /></a></li>
-                    </ul>
-                </div>
-                <a href="/"><div id="name"><span class="first">Jason</span><span class="last">Luebke</span></div></a>
-            </nav>
-        </section>
-    </header>
-
-    <section class="content">
-
-        <div class="section center">
-            <div class="about">
-                <h1>Outreach | Filter Design</h1>
-
-                <p>Outreach is a sales engagement platform, with features built on top of the customer’s CRM data, mostly concerning the opportunity object. This object is a list of all potential sales opportunities in an organization’s pipeline and can often be made up of hundreds of fields. I was tasked with describing, designing and ultimately building a portable and flexible filter-builder, handling very simple to very complex use cases, mostly targeting the customer’s opportunity object.</p>
+  <article class="flex-col">
+      <div class="col-l">
+        <h2>Product Requirements</h2>
+      </div>
+      <div class="col-r">
+      <ul>
+        <li>
+          <h3>Use of boolean logic</h3>
+          <p>
+            In order to support the dynamic nature of customer data along with the complex use-cases, boolean-logic style filters were selected. While data comparison is based on the type, filter rules are combined with AND and OR.</p>
+        </li>
+          <li>
+            <h3>Support for various/multiple data types</h3>
+            <table>
+              <tr>
+                <th colspan="2">Filterable data types</th>
+              </tr>
+              <tr>
+                <td>String</td>
+                <td>Integer</td>
+              </tr>
+              <tr>
+              <td>Floating point number</td>
+              <td>Boolean</td>
+            </tr>
+            <tr>
+              <td>Date</td>
+              <td>Timestamp</td>
+            </tr>
+            <tr>
+              <td>Raw (base64/binary data)</td>
+              <td>Array( of types defined )</td>
+            </tr>
+            <tr>
+              <td colspan="2">Object ( n-number of key/value pairs )</td>
+            </tr>
+          </table>
+        </li>
         
-                <p>The following are high-level takeaways, my comprehensive design document can be read in-full here:</p>
-          </div>
-        </div>
-
-          <div class="section center">
-
-
-            <article class="clearfix">
-                <div class="col-l">
-                    <h2>Product Requirements</h2>
-                </div>
-                <div class="col-r">
-                    <h3>Use of boolean logic</h3>
-                    <p>
-                      In order to support the dynamic nature of customer data along with the complex use-cases, boolean-logic style filters were selected. This, in combonation with the data structure defined by the backend service, the following client-side constraints are formed:</p>
-                    
-
-                      <h3>Support for various/multiple data types</h3>
-                        <div class="flex-col">
-                          <p>Filterable data types:</p>
-
-                          <ul>
-                            <li>String</li>
-                            <li>Integer</li>
-                            <li>Floating point number</li>
-                            <li>Boolean</li>
-                            <li>Date</li>
-                            <li>Timestamp</li>
-                            <li>Raw (base64/binary data)</li>
-                            <li>Array( of types defined )</li>
-                            <li>Object ( n-number of key/value pairs )</li>
-                          </ul>
-                      </div>
-                      
-                      <div class="flex-col">
-                        <h3>Data comparators and relevant UI control surfaces</h3>
-                        <p>While the combination of filter rules are limited to that of AND and OR, data of a specified type may be compared with a limited set of comparator operators.</p>
-
-                        <ul>
-                          <li>EQUAL_TO</li>
-                          <li>NOT_EQUAL_TO</li>
-                          <li>LESS_THAN</li>
-                          <li>GREATER_THAN</li>
-                          <li>GREATER_THAN_EQUAL_TO</li>
-                          <li>LESS_THAN_EQUAL_TO</li>
-                          <li>BETWEEN</li>
-                          <li>NOT_BETWEEN</li>
-                          <li>IN</li>
-                          <li>NOT_IN</li>
-                          <li>REGEX</li>
-                          <li>NOT_REGEX</li>
-                        </ul>
-                      </div>
-                      
-                      <div class="flex-col">
-                        <p>UI input for data types:</p>
-
-                        <ul>
-                          <li>Input</li>
-                          <li>Multi-Input</li>
-                          <li>Select</li>
-                          <li>Multi-Select</li>
-                          <li>Range</li>
-                        </ul>
-                      </div>
-
-                      <div class="flex-col">
-                        <p>Supported Formats:</p>
-
-                        <ul>
-                          <li>currency</li>
-                          <li>int</li>z
-                          <li>percent</li>
-                          <li>email</li>
-                          <li>plaintextarea</li>
-                          <li>richtextarea</li>
-                          <li>select</li>
-                          <li>text</li>
-                          <li>url</li>
-                          <li>date</li>
-                          <li>timestamp</li>
-                          <li>float</li>
-                          <li>location</li>
-                        </ul>
-                    </div>
-                </div>
-            </article>
-            
-            <article class="clearfix">
-                <div class="col-l">
-                    <h2>UX Requirements</h2>
-                </div>
-                <div class="col-r">
-                  <ul>
-                    <li>
-                      <h3>Support simple to very complex logic</h3>
-                      <p>Most often, only a few filters may need to be applied to generate the desired result however a user may need to apply many filters using a combination of logical operators to achieve the desired result. The control must allow for both the simple use-case without being intimidating while supporting a power-user to create the complex.</p>
-                    </li>
-                    <li>
-                      <h3>Compact</h3>
-                      <p>By design, the number/size of filters is not limited and can become very complex. The design needs to allow for one to many filters and filter groups to be applied while still remaining readable.</p>
-                    </li>
-                    <li>
-                      <h3>Constrain user input to prevent impossible filter combinations</h3>
-                      <p>A user could combine filters in an illogical way that would allow for either ambiguity or guaranteed null results. In order to provide a good experience, the components must enforce certain rules by providing relevant feedback/errors, preforming actions on behalf of the user and hiding/showing options in a given situation.</p>
-                    </li>
-                  </ul>
-                </div>
-            </article>
-
-            <div class="gallery gallery-9" itemscope itemtype="http://schema.org/ImageGallery">
-              <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
-                  <a href="images/full/full-9-1.png" itemprop="contentUrl" data-size="1582x1114">
-                      <img src="images/banner/banner-9.png" itemprop="thumbnail" alt="Image description" />
-                  </a>
-                  <figcaption itemprop="caption description">Filter Design Options</figcaption>
-              </figure>
-              
-              <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
-                  <a href="images/full/full-9-2.png" itemprop="contentUrl" data-size="1600x1016">
-                      <img src="images/banner/banner-9.png" itemprop="thumbnail" alt="Image description" />
-                  </a>
-                  <figcaption itemprop="caption description">Filter Design Options</figcaption>
-              </figure>
-            </div>
-
-            <article class="clearfix">
-              <div class="col-l">
-                  <h2>Describing Patterns</h2>
-              </div>
-              <div class="col-r">
-                <p>Where the existing opportunity filter used a subtractive approach, the final design uses an additive pattern to build the filter. These two types are depicted below:</p>
-
-                <h3>Subtractive filtering pattern</h3>
-                <p>This is a common pattern, typically when the content has a finite set of criteria on which to filter. For example many e-commerce sites utilize this type of filtering, where all options are listed and selecting one reduces the main result set. This is not ideal for a Commit customers as their data is driven by CRM which does not limit the number and type of data fields that can be defined.</p>
-
-                <h3>Additive filtering pattern</h3>
-                <p>This approach is to start with no parameters and add in only what is relevant. It renders a clean empty state that is less visually intimidating than presenting all the possible filters up-front. This pattern is less common among consumer and e-commerce sites, and more common in digital applications that interface with large data-sets, such as geographic, weather, documents and financial.</p>
-              </div>
-          </article>
-
-          <div class="gallery gallery-10" itemscope itemtype="http://schema.org/ImageGallery">
-            <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
-                <a href="images/full/full-10-1.png" itemprop="contentUrl" data-size="2304x2726">
-                    <img src="images/banner/banner-10.png" itemprop="thumbnail" alt="Image description" />
-                </a>
-                <figcaption itemprop="caption description">Design Concepts</figcaption>
-            </figure>
-          </div>
-
-          <article class="clearfix">
-            <div class="col-l">
-                <h2>Design Iterations</h2>
-            </div>
-            <div class="col-r">
-              <p>I created three designs to explore concepts, working with my product manager and UX team to gain feedback of what works and what doesn't. The designs are disucced in brief below.</p>
-
-              <h3>Concept 1</h3>
-              <p>This design does a good job at minimizing the complexity, albeit at the expense of readability. The consolidated filter condition removes too much information, requiring the user to click into the item to understand the full definition of the filter. Additionally, the portability of the filter conditions does not offer much in the way of clearly defining boolean grouping logic.</p>
-                
-              <h3>Concept 2</h3>
-              <p>This design is clear and functional allowing flexibility and clarity, however, limits the amount of complexity a user can define. Filters are confined to group, located a static depth.While this would likely serve the needs of most users, the server-side model allows for infinite nesting of groups of filter definitions, which is realized in the next design iteration.</p>
-
-              <h3>Concept 3</h3>
-              <p>This approach extends the previous design by allowing for the creation of groups within groups. Indeed, the data structure can quickly become complex, but only as much as the user desires. The graphical group structure does well to demonstrate boolean relationships while serving as combiner user input.</p>
-            </div>
-        </article>
-
-        <article class="clearfix">
-          <div class="col-l">
-              <h2>Functional Prototype</h2>
-          </div>
-          <div class="col-r">
-            <p>I created a functional prototype of the final design to test with users. The prototype was built using React and consumed static data. The prototype was used to catch any usability issues as well as to validade the generated object structure. Most of the React components were reused in the final deliverable.</p>
-          </div>
-        </article>
-
-        <article class="clearfix">
-          <div class="col-l">
-              <h2>Final Implementation</h2>
-          </div>
-          <div class="col-r">
-            <p>After buliding the production version of this component, it was implemented in several disparate areas of the client/admin apps. The current version has undergone design iterations, however has served as a model for other filtering applications within the organization. The example below shows an implementation with a real-time data preview to validate filter results.</p>
-          </div>
-      </article>
-
-            <div class="gallery gallery-2" itemscope itemtype="http://schema.org/ImageGallery">
-                <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
-                    <a href="images/full/full-5-1.png" itemprop="contentUrl" data-size="1666x1666">
-                        <img src="images/banner/banner-5.png" itemprop="thumbnail" alt="Image description" />
-                    </a>
-                    <figcaption itemprop="caption description">Interface interaction descriptions</figcaption>
-                </figure>
-
-                <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
-                    <a href="images/full/full-5-2.png" itemprop="contentUrl" data-size="1666x1666">
-                        <img src="images/banner/banner-5.png" itemprop="thumbnail" alt="Image description" />
-                    </a>
-                </figure>
-
-                <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
-                    <a href="images/full/full-5-3.png" itemprop="contentUrl" data-size="1666x1666">
-                        <img src="images/banner/banner-5.png" itemprop="thumbnail" alt="Image description" />
-                    </a>
-                </figure>
-
-                <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
-                    <a href="images/full/full-5-4.png" itemprop="contentUrl" data-size="1666x1666">
-                        <img src="images/banner/banner-5.png" itemprop="thumbnail" alt="Image description" />
-                    </a>
-                </figure>
-            </div>
-
-            <article class="clearfix">
-                <div class="col-l">
-                    <h2>Project flows</h2>
-                </div>
-                <div class="col-r">
-                    <p>To identify functional requirements to start on development, I created concept flows for each section of the application. Flows start with an input, provide the possible actions and outcomes, then define an exit point. With this defined, a server-side developer can begin to created the application API.</p>
-                </div>
-            </article>
-
-
-            <div class="gallery gallery-3" itemscope itemtype="http://schema.org/ImageGallery">
-                <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
-                    <a href="images/full/full-6-1.png" itemprop="contentUrl" data-size="4584x4167">
-                        <img src="images/banner/banner-6.png" itemprop="thumbnail" alt="Image description" />
-                    </a>
-                    <figcaption itemprop="caption description">Low-fidelity wireframes</figcaption>
-                </figure>
-
-                <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
-                    <a href="images/full/full-6-2.png" itemprop="contentUrl" data-size="2947x5000">
-                        <img src="images/banner/banner-6.png" itemprop="thumbnail" alt="Image description" />
-                    </a>
-                </figure>
-
-                <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
-                    <a href="images/full/full-6-3.png" itemprop="contentUrl" data-size="5000x3182">
-                        <img src="images/banner/banner-6.png" itemprop="thumbnail" alt="Image description" />
-                    </a>
-                </figure>
-            </div>
-
-            <article class="clearfix">
-                <div class="col-l">
-                    <h2>Wireframes</h2>
-                </div>
-                <div class="col-r">
-                    <p>The web interface was developed in parallel with the mobile app, both utilizing the API. The major difference between the two is how a user sorts through Bright Ideas. Instead of a seeming infinite feed, like Facebook or Instagram, we pursued a card stack concept, as the user may only have a handful of suggestions at any given moment.</p>
-                    <p>Another interesting concept was the input mechanism. For each service we were able to compile a formula to generate a finite price for the service processing a few input variables from the homeowner. Instead of a standard form, we used a Mad Lib. While this was arguably more verbose, it made the data collection feel more personal and fun.</p>
-                </div>
-            </article>
-
-            <article class="clearfix">
-                <div class="col-l">
-                    <h2>Market-Product fit</h2>
-                </div>
-                <div class="col-r">
-                    <p>The app was public and we were driving traffic through promotions and advertising, however our customer base was still small. We formed a list of customers and potential customers who fit our target demographic and I constructed a semi-structured interview to sus out what we were doing wrong and what we should be doing.</p>
-                    <p>The two main takeaways from the interviews were:
-                        <ul>
-                            <li>The app is nice but too complex for what they wanted</li>
-                            <li>The homeowner would like to talk to someone, either over text or phone</li>
-                        </ul>
-                    </p>
-
-                </div>
-            </article>
-
-            <div class="gallery gallery-4" itemscope itemtype="http://schema.org/ImageGallery">
-                <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
-                    <a href="images/full/full-7-1.png" itemprop="contentUrl" data-size="2880x1466">
-                        <img src="images/banner/banner-7.png" itemprop="thumbnail" alt="Image description" />
-                    </a>
-                    <figcaption itemprop="caption description">Iteration of app components</figcaption>
-                </figure>
-
-                <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
-                    <a href="images/full/full-7-2.png" itemprop="contentUrl" data-size="4800x2291">
-                        <img src="images/banner/banner-7.png" itemprop="thumbnail" alt="Image description" />
-                    </a>
-                </figure>
-            </div>
-
-
-            <article class="clearfix">
-                <div class="col-l">
-                    <h2>High-fidelity concept prototyping</h2>
-                </div>
-                <div class="col-r">
-                    <p>Design iteration and refinement was ongoing through out the project. We used a subset of customers for feedback on the application in exchange for service.</p>
-                </div>
-            </article>
-
-
-            <article class="clearfix">
-                <div class="col-l">
-                    <h2>Market-Product fit</h2>
-                </div>
-                <div class="col-r">
-                    <p>The app was public and we drove traffic through promotions and advertising, however our customer base was still small. We formed a list of customers and potential customers who fit our target demographic and I constructed a semi-structured interview to sus out what we were doing wrong and what we should be doing.</p>
-                    <p>The two main takeaways from the interviews were:
-                        <ul>
-                            <li>The app is nice but too complex for what they wanted</li>
-                            <li>The homeowner would like to talk to someone, either over text or phone</li>
-                        </ul>
-                    </p>
-                </div>
-            </article>
-
-
-            <div class="gallery gallery-5" itemscope itemtype="http://schema.org/ImageGallery">
-                <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
-                    <a href="images/full/full-8-1.jpg" itemprop="contentUrl" data-size="750x1334">
-                        <img src="images/banner/banner-8.png" itemprop="thumbnail" alt="Image description" />
-                    </a>
-                    <figcaption itemprop="caption description">Final designs</figcaption>
-                </figure>
-
-                <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
-                    <a href="images/full/full-8-2.jpg" itemprop="contentUrl" data-size="750x1334">
-                        <img src="images/banner/banner-8.png" itemprop="thumbnail" alt="Image description" />
-                    </a>
-                </figure>
-
-                <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
-                    <a href="images/full/full-8-3.jpg" itemprop="contentUrl" data-size="750x1334">
-                        <img src="images/banner/banner-8.png" itemprop="thumbnail" alt="Image description" />
-                    </a>
-                </figure>
-
-                <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
-                    <a href="images/full/full-8-4.jpg" itemprop="contentUrl" data-size="750x1334">
-                        <img src="images/banner/banner-8.png" itemprop="thumbnail" alt="Image description" />
-                    </a>
-                </figure>
-
-                <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
-                    <a href="images/full/full-8-5.jpg" itemprop="contentUrl" data-size="750x1334">
-                        <img src="images/banner/banner-8.png" itemprop="thumbnail" alt="Image description" />
-                    </a>
-                </figure>
-
-                <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
-                    <a href="images/full/full-8-6.jpg" itemprop="contentUrl" data-size="750x1334">
-                        <img src="images/banner/banner-8.png" itemprop="thumbnail" alt="Image description" />
-                    </a>
-                </figure>
-
-                <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
-                    <a href="images/full/full-8-7.jpg" itemprop="contentUrl" data-size="750x1334">
-                        <img src="images/banner/banner-8.png" itemprop="thumbnail" alt="Image description" />
-                    </a>
-                </figure>
-            </div>
-
-            <article class="clearfix">
-                <div class="col-l">
-                    <h2>Refinement</h2>
-                </div>
-                <div class="col-r">
-                    <p>The solution we came up with to address the barriers of use was something called "Haven Now." It served as an asynchronous request to our customer CRM. A customer could call or text member services to discuss and schedule service. They would place the order in the admin site, which would then be reflected in the customer app as a transaction and item placed on their Punchlist.</p>
-                </div>
-            </article>
-
-        </div>
-
-    </section>
-
-    <section class="content">
-
-        <div class="section center">
-            <div class="about">
-                <h1>Haven</h1>
-
-                <p>Haven (originally PorchLight) was a funded startup focusing on providing an easier way to hire home-service professionals to preform jobs including house cleaning, HVAC maintenance, lawn mowing, etc. We developed a mobile application and web-service, had contracts with many service professionals, and a small customer base. Ultimately, the company could not sustain itself financially.</p>
-            </div>
-        </div>
-
-        <div class="section center">
-
-            <div class="gallery gallery-1" itemscope itemtype="http://schema.org/ImageGallery">
-                <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
-                    <a href="images/full/full-4-1.png" itemprop="contentUrl" data-size="2893x2300">
-                        <img src="images/banner/banner-4.png" itemprop="thumbnail" alt="Image description" />
-                    </a>
-                    <figcaption itemprop="caption description">Preliminary project flows</figcaption>
-                </figure>
-            </div>
-
-            <article class="clearfix">
-                <div class="col-l">
-                    <h2>Low-fidelity concept prototyping</h2>
-                </div>
-                <div class="col-r">
-                    <p>Initial concepts presented to willing participants for general concept feedback and rough interface development. Initially, the central idea was called a Bright Idea: a suggestion to preform some relevant task, how to do it, average difficulty, time needed, etc.  Some of the suggestions had the option to hire a professional, if we had the contract and pricing setup.</p>
-                    <p>Secondary functionality is a "Punchlist," or a to-do list automatically created by scheduling a service professional or from a Bright Idea. Items entered on the Punchlist are also a source for automated recommendations.</p>
-                </div>
-            </article>
-
-            <div class="gallery gallery-2" itemscope itemtype="http://schema.org/ImageGallery">
-                <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
-                    <a href="images/full/full-5-1.png" itemprop="contentUrl" data-size="1666x1666">
-                        <img src="images/banner/banner-5.png" itemprop="thumbnail" alt="Image description" />
-                    </a>
-                    <figcaption itemprop="caption description">Interface interaction descriptions</figcaption>
-                </figure>
-
-                <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
-                    <a href="images/full/full-5-2.png" itemprop="contentUrl" data-size="1666x1666">
-                        <img src="images/banner/banner-5.png" itemprop="thumbnail" alt="Image description" />
-                    </a>
-                </figure>
-
-                <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
-                    <a href="images/full/full-5-3.png" itemprop="contentUrl" data-size="1666x1666">
-                        <img src="images/banner/banner-5.png" itemprop="thumbnail" alt="Image description" />
-                    </a>
-                </figure>
-
-                <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
-                    <a href="images/full/full-5-4.png" itemprop="contentUrl" data-size="1666x1666">
-                        <img src="images/banner/banner-5.png" itemprop="thumbnail" alt="Image description" />
-                    </a>
-                </figure>
-            </div>
-
-            <article class="clearfix">
-                <div class="col-l">
-                    <h2>Project flows</h2>
-                </div>
-                <div class="col-r">
-                    <p>To identify functional requirements to start on development, I created concept flows for each section of the application. Flows start with an input, provide the possible actions and outcomes, then define an exit point. With this defined, a server-side developer can begin to created the application API.</p>
-                </div>
-            </article>
-
-
-            <div class="gallery gallery-3" itemscope itemtype="http://schema.org/ImageGallery">
-                <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
-                    <a href="images/full/full-6-1.png" itemprop="contentUrl" data-size="4584x4167">
-                        <img src="images/banner/banner-6.png" itemprop="thumbnail" alt="Image description" />
-                    </a>
-                    <figcaption itemprop="caption description">Low-fidelity wireframes</figcaption>
-                </figure>
-
-                <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
-                    <a href="images/full/full-6-2.png" itemprop="contentUrl" data-size="2947x5000">
-                        <img src="images/banner/banner-6.png" itemprop="thumbnail" alt="Image description" />
-                    </a>
-                </figure>
-
-                <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
-                    <a href="images/full/full-6-3.png" itemprop="contentUrl" data-size="5000x3182">
-                        <img src="images/banner/banner-6.png" itemprop="thumbnail" alt="Image description" />
-                    </a>
-                </figure>
-            </div>
-
-            <article class="clearfix">
-                <div class="col-l">
-                    <h2>Wireframes</h2>
-                </div>
-                <div class="col-r">
-                    <p>The web interface was developed in parallel with the mobile app, both utilizing the API. The major difference between the two is how a user sorts through Bright Ideas. Instead of a seeming infinite feed, like Facebook or Instagram, we pursued a card stack concept, as the user may only have a handful of suggestions at any given moment.</p>
-                    <p>Another interesting concept was the input mechanism. For each service we were able to compile a formula to generate a finite price for the service processing a few input variables from the homeowner. Instead of a standard form, we used a Mad Lib. While this was arguably more verbose, it made the data collection feel more personal and fun.</p>
-                </div>
-            </article>
-
-            <article class="clearfix">
-                <div class="col-l">
-                    <h2>Market-Product fit</h2>
-                </div>
-                <div class="col-r">
-                    <p>The app was public and we were driving traffic through promotions and advertising, however our customer base was still small. We formed a list of customers and potential customers who fit our target demographic and I constructed a semi-structured interview to sus out what we were doing wrong and what we should be doing.</p>
-                    <p>The two main takeaways from the interviews were:
-                        <ul>
-                            <li>The app is nice but too complex for what they wanted</li>
-                            <li>The homeowner would like to talk to someone, either over text or phone</li>
-                        </ul>
-                    </p>
-
-                </div>
-            </article>
-
-            <div class="gallery gallery-4" itemscope itemtype="http://schema.org/ImageGallery">
-                <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
-                    <a href="images/full/full-7-1.png" itemprop="contentUrl" data-size="2880x1466">
-                        <img src="images/banner/banner-7.png" itemprop="thumbnail" alt="Image description" />
-                    </a>
-                    <figcaption itemprop="caption description">Iteration of app components</figcaption>
-                </figure>
-
-                <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
-                    <a href="images/full/full-7-2.png" itemprop="contentUrl" data-size="4800x2291">
-                        <img src="images/banner/banner-7.png" itemprop="thumbnail" alt="Image description" />
-                    </a>
-                </figure>
-            </div>
-
-
-            <article class="clearfix">
-                <div class="col-l">
-                    <h2>High-fidelity concept prototyping</h2>
-                </div>
-                <div class="col-r">
-                    <p>Design iteration and refinement was ongoing through out the project. We used a subset of customers for feedback on the application in exchange for service.</p>
-                </div>
-            </article>
-
-
-            <article class="clearfix">
-                <div class="col-l">
-                    <h2>Market-Product fit</h2>
-                </div>
-                <div class="col-r">
-                    <p>The app was public and we drove traffic through promotions and advertising, however our customer base was still small. We formed a list of customers and potential customers who fit our target demographic and I constructed a semi-structured interview to sus out what we were doing wrong and what we should be doing.</p>
-                    <p>The two main takeaways from the interviews were:
-                        <ul>
-                            <li>The app is nice but too complex for what they wanted</li>
-                            <li>The homeowner would like to talk to someone, either over text or phone</li>
-                        </ul>
-                    </p>
-                </div>
-            </article>
-
-
-            <div class="gallery gallery-5" itemscope itemtype="http://schema.org/ImageGallery">
-                <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
-                    <a href="images/full/full-8-1.jpg" itemprop="contentUrl" data-size="750x1334">
-                        <img src="images/banner/banner-8.png" itemprop="thumbnail" alt="Image description" />
-                    </a>
-                    <figcaption itemprop="caption description">Final designs</figcaption>
-                </figure>
-
-                <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
-                    <a href="images/full/full-8-2.jpg" itemprop="contentUrl" data-size="750x1334">
-                        <img src="images/banner/banner-8.png" itemprop="thumbnail" alt="Image description" />
-                    </a>
-                </figure>
-
-                <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
-                    <a href="images/full/full-8-3.jpg" itemprop="contentUrl" data-size="750x1334">
-                        <img src="images/banner/banner-8.png" itemprop="thumbnail" alt="Image description" />
-                    </a>
-                </figure>
-
-                <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
-                    <a href="images/full/full-8-4.jpg" itemprop="contentUrl" data-size="750x1334">
-                        <img src="images/banner/banner-8.png" itemprop="thumbnail" alt="Image description" />
-                    </a>
-                </figure>
-
-                <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
-                    <a href="images/full/full-8-5.jpg" itemprop="contentUrl" data-size="750x1334">
-                        <img src="images/banner/banner-8.png" itemprop="thumbnail" alt="Image description" />
-                    </a>
-                </figure>
-
-                <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
-                    <a href="images/full/full-8-6.jpg" itemprop="contentUrl" data-size="750x1334">
-                        <img src="images/banner/banner-8.png" itemprop="thumbnail" alt="Image description" />
-                    </a>
-                </figure>
-
-                <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
-                    <a href="images/full/full-8-7.jpg" itemprop="contentUrl" data-size="750x1334">
-                        <img src="images/banner/banner-8.png" itemprop="thumbnail" alt="Image description" />
-                    </a>
-                </figure>
-            </div>
-
-            <article class="clearfix">
-                <div class="col-l">
-                    <h2>Refinement</h2>
-                </div>
-                <div class="col-r">
-                    <p>The solution we came up with to address the barriers of use was something called "Haven Now." It served as an asynchronous request to our customer CRM. A customer could call or text member services to discuss and schedule service. They would place the order in the admin site, which would then be reflected in the customer app as a transaction and item placed on their Punchlist.</p>
-                </div>
-            </article>
-
-        </div>
-
-    </section>
-
-    <footer>
-        <section class="content">
-            <div class="note">All rights reserved, copyright Jason Luebke, 2024</div>
-        </section>
-    </footer>
-
-</section>
-
-<!-- Root element of PhotoSwipe. Must have class pswp. -->
-<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
-
-    <!-- Background of PhotoSwipe.
-         It's a separate element as animating opacity is faster than rgba(). -->
-    <div class="pswp__bg"></div>
-
-    <!-- Slides wrapper with overflow:hidden. -->
-    <div class="pswp__scroll-wrap">
-        <!-- Container that holds slides.
-            PhotoSwipe keeps only 3 of them in the DOM to save memory.
-            Don't modify these 3 pswp__item elements, data is added later on. -->
-        <div class="pswp__container">
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-        </div>
-        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
-        <div class="pswp__ui pswp__ui--hidden">
-            <div class="pswp__top-bar">
-                <!--  Controls are self-explanatory. Order can be changed. -->
-                <div class="pswp__counter"></div>
-                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
-                <button class="pswp__button pswp__button--share" title="Share"></button>
-                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
-                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
-                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
-                <!-- element will get class pswp__preloader-active when preloader is running -->
-                <div class="pswp__preloader">
-                    <div class="pswp__preloader__icn">
-                      <div class="pswp__preloader__cut">
-                        <div class="pswp__preloader__donut"></div>
-                      </div>
-                    </div>
-                </div>
-            </div>
-            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
-                <div class="pswp__share-tooltip"></div>
-            </div>
-            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)"></button>
-            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button>
-            <div class="pswp__caption">
-                <div class="pswp__caption__center"></div>
-            </div>
-        </div>
-
+        <li>
+          <h3>Data comparators and relevant UI control surfaces</h3>
+          <p>While the combination of filter rules are limited to that of AND and OR, data of a specified type may be constrained with the following:</p>
+
+          <table>
+            <tr>
+              <th>Comparator Operators</th>
+              <th>UI input for data types</th>
+              <th>Supported Formats</th>
+            </tr>
+            <tr>
+              <td>Equal To</td>
+              <td>Input</td>
+              <td>currency</td>
+            </tr>
+            <tr>
+              <td>Not Equal To</td>
+              <td>Multi-Input</td>
+              <td>int</td>
+            </tr>
+            <tr>
+              <td>Less Than</td>
+              <td>Select</td>
+              <td>percent</td>
+            </tr>
+            <tr>
+              <td>Greater Than</td>
+              <td>Multi-Select</td>
+              <td>email</td>
+            </tr>
+            <tr>
+              <td>Greater Than Equal To</td>
+              <td>Range</td>
+              <td>plaintextarea</td>
+            </tr>
+            <tr>
+              <td>Less Than Equal To</td>
+              <td></td>
+              <td>richtextarea</td>
+            </tr>
+            <tr>
+              <td>Between</td>
+              <td></td>
+              <td>select</td>
+            </tr>
+            <tr>
+              <td>Not Between</td>
+              <td></td>
+              <td>text</td>
+            </tr>
+            <tr>
+              <td>In</td>
+              <td></td>
+              <td>url</td>
+            </tr>
+            <tr>
+              <td>Not In</td>
+              <td></td>
+              <td>date</td>
+            </tr>
+            <tr>
+              <td>RegExp</td>
+              <td></td>
+              <td>timestamp</td>
+            </tr>
+            <tr>
+              <td>Not RegExp</td>
+              <td></td>
+              <td>float</td>
+            </tr>
+            <tr>
+              <td></td>
+              <td></td>
+              <td>location</td>
+            </tr>
+          </table>
+        </li>
+      </div>
+  </article>
+  
+  <article class="flex-col">
+      <div class="col-l">
+          <h2>UX Requirements</h2>
+      </div>
+      <div class="col-r">
+        <ul>
+          <li>
+            <h3>Support simple to very complex logic</h3>
+            <p>Most often, only a few filters may need to be applied to generate the desired result however a user may need to apply many filters using a combination of logical operators to achieve the desired result. The control must allow for both the simple use-case without being intimidating while supporting a power-user to create the complex.</p>
+          </li>
+          <li>
+            <h3>Compact</h3>
+            <p>By design, the number/size of filters is not limited and can become very complex. The design needs to allow for one to many filters and filter groups to be applied while still remaining readable.</p>
+          </li>
+          <li>
+            <h3>Constrain user input to prevent impossible filter combinations</h3>
+            <p>A user could combine filters in an illogical way that would allow for either ambiguity or guaranteed null results. In order to provide a good experience, the components must enforce certain rules by providing relevant feedback/errors, preforming actions on behalf of the user and hiding/showing options in a given situation.</p>
+          </li>
+        </ul>
+      </div>
+  </article>
+
+  <div class="gallery gallery-9" itemscope itemtype="http://schema.org/ImageGallery">
+    <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
+        <a href="images/full/full-9-1.png" itemprop="contentUrl" data-size="1582x1114">
+            <img src="images/banner/banner-9.png" itemprop="thumbnail" alt="Image description" />
+        </a>
+        <figcaption itemprop="caption description">Filter Design Options</figcaption>
+    </figure>
+    
+    <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
+        <a href="images/full/full-9-2.png" itemprop="contentUrl" data-size="1600x1016">
+            <img src="images/banner/banner-9.png" itemprop="thumbnail" alt="Image description" />
+        </a>
+        <figcaption itemprop="caption description">Filter Design Options</figcaption>
+    </figure>
+  </div>
+
+  <article class="flex-col">
+    <div class="col-l">
+        <h2>Describing Patterns</h2>
     </div>
+    <div class="col-r">
+      <p>Where the existing opportunity filter used a subtractive approach, the final design uses an additive pattern to build the filter. These two types are depicted below:</p>
+
+      <h3>Subtractive filtering pattern</h3>
+      <p>This is a common pattern, typically when the content has a finite set of criteria on which to filter. For example many e-commerce sites utilize this type of filtering, where all options are listed and selecting one reduces the main result set. This is not ideal for a Commit customers as their data is driven by CRM which does not limit the number and type of data fields that can be defined.</p>
+
+      <h3>Additive filtering pattern</h3>
+      <p>This approach is to start with no parameters and add in only what is relevant. It renders a clean empty state that is less visually intimidating than presenting all the possible filters up-front. This pattern is less common among consumer and e-commerce sites, and more common in digital applications that interface with large data-sets, such as geographic, weather, documents and financial.</p>
+    </div>
+</article>
+
+<div class="gallery gallery-10" itemscope itemtype="http://schema.org/ImageGallery">
+  <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
+      <a href="images/full/full-10-1.png" itemprop="contentUrl" data-size="2304x2726">
+          <img src="images/banner/banner-10.png" itemprop="thumbnail" alt="Image description" />
+      </a>
+      <figcaption itemprop="caption description">Design Concepts</figcaption>
+  </figure>
+</div>
+
+<article class="flex-col">
+  <div class="col-l">
+      <h2>Design Iterations</h2>
+  </div>
+  <div class="col-r">
+    <p>I created three designs to explore concepts, working with my product manager and UX team to gain feedback of what works and what doesn't. The designs are disucced in brief below.</p>
+
+    <h3>Concept 1</h3>
+    <p>This design does a good job at minimizing the complexity, albeit at the expense of readability. The consolidated filter condition removes too much information, requiring the user to click into the item to understand the full definition of the filter. Additionally, the portability of the filter conditions does not offer much in the way of clearly defining boolean grouping logic.</p>
+      
+    <h3>Concept 2</h3>
+    <p>This design is clear and functional allowing flexibility and clarity, however, limits the amount of complexity a user can define. Filters are confined to group, located a static depth.While this would likely serve the needs of most users, the server-side model allows for infinite nesting of groups of filter definitions, which is realized in the next design iteration.</p>
+
+    <h3>Concept 3</h3>
+    <p>This approach extends the previous design by allowing for the creation of groups within groups. Indeed, the data structure can quickly become complex, but only as much as the user desires. The graphical group structure does well to demonstrate boolean relationships while serving as combiner user input.</p>
+  </div>
+</article>
+
+<article class="flex-col">
+<div class="col-l">
+    <h2>Functional Prototype</h2>
+</div>
+<div class="col-r">
+  <p>I created a functional prototype of the final design to test with users. The prototype was built using React and consumed static data. The prototype was used to catch any usability issues as well as to validade the generated object structure. Most of the React components were reused in the final deliverable.</p>
+</div>
+</article>
+
+<article class="flex-col">
+<div class="col-l">
+    <h2>Final Implementation</h2>
+</div>
+<div class="col-r">
+  <p>After buliding the production version of this component, it was implemented in several disparate areas of the client/admin apps. The current version has undergone design iterations, however has served as a model for other filtering applications within the organization. The example below shows an implementation with a real-time data preview to validate filter results.</p>
+</div>
+</article>
+
+  <div class="gallery gallery-2" itemscope itemtype="http://schema.org/ImageGallery">
+      <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
+          <a href="images/full/full-5-1.png" itemprop="contentUrl" data-size="1666x1666">
+              <img src="images/banner/banner-5.png" itemprop="thumbnail" alt="Image description" />
+          </a>
+          <figcaption itemprop="caption description">Interface interaction descriptions</figcaption>
+      </figure>
+
+      <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
+          <a href="images/full/full-5-2.png" itemprop="contentUrl" data-size="1666x1666">
+              <img src="images/banner/banner-5.png" itemprop="thumbnail" alt="Image description" />
+          </a>
+      </figure>
+
+      <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
+          <a href="images/full/full-5-3.png" itemprop="contentUrl" data-size="1666x1666">
+              <img src="images/banner/banner-5.png" itemprop="thumbnail" alt="Image description" />
+          </a>
+      </figure>
+
+      <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
+          <a href="images/full/full-5-4.png" itemprop="contentUrl" data-size="1666x1666">
+              <img src="images/banner/banner-5.png" itemprop="thumbnail" alt="Image description" />
+          </a>
+      </figure>
+  </div>
+
+  <article class="flex-col">
+      <div class="col-l">
+          <h2>Project flows</h2>
+      </div>
+      <div class="col-r">
+          <p>To identify functional requirements to start on development, I created concept flows for each section of the application. Flows start with an input, provide the possible actions and outcomes, then define an exit point. With this defined, a server-side developer can begin to created the application API.</p>
+      </div>
+  </article>
+
+
+  <div class="gallery gallery-3" itemscope itemtype="http://schema.org/ImageGallery">
+      <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
+          <a href="images/full/full-6-1.png" itemprop="contentUrl" data-size="4584x4167">
+              <img src="images/banner/banner-6.png" itemprop="thumbnail" alt="Image description" />
+          </a>
+          <figcaption itemprop="caption description">Low-fidelity wireframes</figcaption>
+      </figure>
+
+      <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
+          <a href="images/full/full-6-2.png" itemprop="contentUrl" data-size="2947x5000">
+              <img src="images/banner/banner-6.png" itemprop="thumbnail" alt="Image description" />
+          </a>
+      </figure>
+
+      <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
+          <a href="images/full/full-6-3.png" itemprop="contentUrl" data-size="5000x3182">
+              <img src="images/banner/banner-6.png" itemprop="thumbnail" alt="Image description" />
+          </a>
+      </figure>
+  </div>
+
+  <article class="flex-col">
+      <div class="col-l">
+          <h2>Wireframes</h2>
+      </div>
+      <div class="col-r">
+          <p>The web interface was developed in parallel with the mobile app, both utilizing the API. The major difference between the two is how a user sorts through Bright Ideas. Instead of a seeming infinite feed, like Facebook or Instagram, we pursued a card stack concept, as the user may only have a handful of suggestions at any given moment.</p>
+          <p>Another interesting concept was the input mechanism. For each service we were able to compile a formula to generate a finite price for the service processing a few input variables from the homeowner. Instead of a standard form, we used a Mad Lib. While this was arguably more verbose, it made the data collection feel more personal and fun.</p>
+      </div>
+  </article>
+
+  <article class="flex-col">
+      <div class="col-l">
+          <h2>Market-Product fit</h2>
+      </div>
+      <div class="col-r">
+          <p>The app was public and we were driving traffic through promotions and advertising, however our customer base was still small. We formed a list of customers and potential customers who fit our target demographic and I constructed a semi-structured interview to sus out what we were doing wrong and what we should be doing.</p>
+          <p>The two main takeaways from the interviews were:
+              <ul>
+                  <li>The app is nice but too complex for what they wanted</li>
+                  <li>The homeowner would like to talk to someone, either over text or phone</li>
+              </ul>
+          </p>
+
+      </div>
+  </article>
+
+  <div class="gallery gallery-4" itemscope itemtype="http://schema.org/ImageGallery">
+      <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
+          <a href="images/full/full-7-1.png" itemprop="contentUrl" data-size="2880x1466">
+              <img src="images/banner/banner-7.png" itemprop="thumbnail" alt="Image description" />
+          </a>
+          <figcaption itemprop="caption description">Iteration of app components</figcaption>
+      </figure>
+
+      <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
+          <a href="images/full/full-7-2.png" itemprop="contentUrl" data-size="4800x2291">
+              <img src="images/banner/banner-7.png" itemprop="thumbnail" alt="Image description" />
+          </a>
+      </figure>
+  </div>
+
+
+  <article class="flex-col">
+      <div class="col-l">
+          <h2>High-fidelity concept prototyping</h2>
+      </div>
+      <div class="col-r">
+          <p>Design iteration and refinement was ongoing through out the project. We used a subset of customers for feedback on the application in exchange for service.</p>
+      </div>
+  </article>
+
+
+  <article class="flex-col">
+      <div class="col-l">
+          <h2>Market-Product fit</h2>
+      </div>
+      <div class="col-r">
+          <p>The app was public and we drove traffic through promotions and advertising, however our customer base was still small. We formed a list of customers and potential customers who fit our target demographic and I constructed a semi-structured interview to sus out what we were doing wrong and what we should be doing.</p>
+          <p>The two main takeaways from the interviews were:
+              <ul>
+                  <li>The app is nice but too complex for what they wanted</li>
+                  <li>The homeowner would like to talk to someone, either over text or phone</li>
+              </ul>
+          </p>
+      </div>
+  </article>
+
+
+  <div class="gallery gallery-5" itemscope itemtype="http://schema.org/ImageGallery">
+      <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
+          <a href="images/full/full-8-1.jpg" itemprop="contentUrl" data-size="750x1334">
+              <img src="images/banner/banner-8.png" itemprop="thumbnail" alt="Image description" />
+          </a>
+          <figcaption itemprop="caption description">Final designs</figcaption>
+      </figure>
+
+      <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
+          <a href="images/full/full-8-2.jpg" itemprop="contentUrl" data-size="750x1334">
+              <img src="images/banner/banner-8.png" itemprop="thumbnail" alt="Image description" />
+          </a>
+      </figure>
+
+      <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
+          <a href="images/full/full-8-3.jpg" itemprop="contentUrl" data-size="750x1334">
+              <img src="images/banner/banner-8.png" itemprop="thumbnail" alt="Image description" />
+          </a>
+      </figure>
+
+      <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
+          <a href="images/full/full-8-4.jpg" itemprop="contentUrl" data-size="750x1334">
+              <img src="images/banner/banner-8.png" itemprop="thumbnail" alt="Image description" />
+          </a>
+      </figure>
+
+      <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
+          <a href="images/full/full-8-5.jpg" itemprop="contentUrl" data-size="750x1334">
+              <img src="images/banner/banner-8.png" itemprop="thumbnail" alt="Image description" />
+          </a>
+      </figure>
+
+      <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
+          <a href="images/full/full-8-6.jpg" itemprop="contentUrl" data-size="750x1334">
+              <img src="images/banner/banner-8.png" itemprop="thumbnail" alt="Image description" />
+          </a>
+      </figure>
+
+      <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
+          <a href="images/full/full-8-7.jpg" itemprop="contentUrl" data-size="750x1334">
+              <img src="images/banner/banner-8.png" itemprop="thumbnail" alt="Image description" />
+          </a>
+      </figure>
+  </div>
+
+  <article class="flex-col">
+      <div class="col-l">
+          <h2>Refinement</h2>
+      </div>
+      <div class="col-r">
+          <p>The solution we came up with to address the barriers of use was something called "Haven Now." It served as an asynchronous request to our customer CRM. A customer could call or text member services to discuss and schedule service. They would place the order in the admin site, which would then be reflected in the customer app as a transaction and item placed on their Punchlist.</p>
+      </div>
+  </article>
 
 </div>
 
-<script type="text/javascript" src="video.js"></script>
-<script type="text/javascript" src="photoswipe.js"></script>
+</section>
 
-</body>
-</html>
+<section class="content">
+
+<div class="section center">
+  <div class="about">
+      <h1>Haven</h1>
+
+      <p>Haven (originally PorchLight) was a funded startup focusing on providing an easier way to hire home-service professionals to preform jobs including house cleaning, HVAC maintenance, lawn mowing, etc. We developed a mobile application and web-service, had contracts with many service professionals, and a small customer base. Ultimately, the company could not sustain itself financially.</p>
+  </div>
+</div>
+
+<div class="section center">
+
+  <div class="gallery gallery-1" itemscope itemtype="http://schema.org/ImageGallery">
+      <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
+          <a href="images/full/full-4-1.png" itemprop="contentUrl" data-size="2893x2300">
+              <img src="images/banner/banner-4.png" itemprop="thumbnail" alt="Image description" />
+          </a>
+          <figcaption itemprop="caption description">Preliminary project flows</figcaption>
+      </figure>
+  </div>
+
+  <article class="flex-col">
+      <div class="col-l">
+          <h2>Low-fidelity concept prototyping</h2>
+      </div>
+      <div class="col-r">
+          <p>Initial concepts presented to willing participants for general concept feedback and rough interface development. Initially, the central idea was called a Bright Idea: a suggestion to preform some relevant task, how to do it, average difficulty, time needed, etc.  Some of the suggestions had the option to hire a professional, if we had the contract and pricing setup.</p>
+          <p>Secondary functionality is a "Punchlist," or a to-do list automatically created by scheduling a service professional or from a Bright Idea. Items entered on the Punchlist are also a source for automated recommendations.</p>
+      </div>
+  </article>
+
+  <div class="gallery gallery-2" itemscope itemtype="http://schema.org/ImageGallery">
+      <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
+          <a href="images/full/full-5-1.png" itemprop="contentUrl" data-size="1666x1666">
+              <img src="images/banner/banner-5.png" itemprop="thumbnail" alt="Image description" />
+          </a>
+          <figcaption itemprop="caption description">Interface interaction descriptions</figcaption>
+      </figure>
+
+      <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
+          <a href="images/full/full-5-2.png" itemprop="contentUrl" data-size="1666x1666">
+              <img src="images/banner/banner-5.png" itemprop="thumbnail" alt="Image description" />
+          </a>
+      </figure>
+
+      <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
+          <a href="images/full/full-5-3.png" itemprop="contentUrl" data-size="1666x1666">
+              <img src="images/banner/banner-5.png" itemprop="thumbnail" alt="Image description" />
+          </a>
+      </figure>
+
+      <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
+          <a href="images/full/full-5-4.png" itemprop="contentUrl" data-size="1666x1666">
+              <img src="images/banner/banner-5.png" itemprop="thumbnail" alt="Image description" />
+          </a>
+      </figure>
+  </div>
+
+  <article class="flex-col">
+      <div class="col-l">
+          <h2>Project flows</h2>
+      </div>
+      <div class="col-r">
+          <p>To identify functional requirements to start on development, I created concept flows for each section of the application. Flows start with an input, provide the possible actions and outcomes, then define an exit point. With this defined, a server-side developer can begin to created the application API.</p>
+      </div>
+  </article>
+
+
+  <div class="gallery gallery-3" itemscope itemtype="http://schema.org/ImageGallery">
+      <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
+          <a href="images/full/full-6-1.png" itemprop="contentUrl" data-size="4584x4167">
+              <img src="images/banner/banner-6.png" itemprop="thumbnail" alt="Image description" />
+          </a>
+          <figcaption itemprop="caption description">Low-fidelity wireframes</figcaption>
+      </figure>
+
+      <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
+          <a href="images/full/full-6-2.png" itemprop="contentUrl" data-size="2947x5000">
+              <img src="images/banner/banner-6.png" itemprop="thumbnail" alt="Image description" />
+          </a>
+      </figure>
+
+      <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
+          <a href="images/full/full-6-3.png" itemprop="contentUrl" data-size="5000x3182">
+              <img src="images/banner/banner-6.png" itemprop="thumbnail" alt="Image description" />
+          </a>
+      </figure>
+  </div>
+
+  <article class="flex-col">
+      <div class="col-l">
+          <h2>Wireframes</h2>
+      </div>
+      <div class="col-r">
+          <p>The web interface was developed in parallel with the mobile app, both utilizing the API. The major difference between the two is how a user sorts through Bright Ideas. Instead of a seeming infinite feed, like Facebook or Instagram, we pursued a card stack concept, as the user may only have a handful of suggestions at any given moment.</p>
+          <p>Another interesting concept was the input mechanism. For each service we were able to compile a formula to generate a finite price for the service processing a few input variables from the homeowner. Instead of a standard form, we used a Mad Lib. While this was arguably more verbose, it made the data collection feel more personal and fun.</p>
+      </div>
+  </article>
+
+  <article class="flex-col">
+      <div class="col-l">
+          <h2>Market-Product fit</h2>
+      </div>
+      <div class="col-r">
+          <p>The app was public and we were driving traffic through promotions and advertising, however our customer base was still small. We formed a list of customers and potential customers who fit our target demographic and I constructed a semi-structured interview to sus out what we were doing wrong and what we should be doing.</p>
+          <p>The two main takeaways from the interviews were:
+              <ul>
+                  <li>The app is nice but too complex for what they wanted</li>
+                  <li>The homeowner would like to talk to someone, either over text or phone</li>
+              </ul>
+          </p>
+
+      </div>
+  </article>
+
+  <div class="gallery gallery-4" itemscope itemtype="http://schema.org/ImageGallery">
+      <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
+          <a href="images/full/full-7-1.png" itemprop="contentUrl" data-size="2880x1466">
+              <img src="images/banner/banner-7.png" itemprop="thumbnail" alt="Image description" />
+          </a>
+          <figcaption itemprop="caption description">Iteration of app components</figcaption>
+      </figure>
+
+      <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
+          <a href="images/full/full-7-2.png" itemprop="contentUrl" data-size="4800x2291">
+              <img src="images/banner/banner-7.png" itemprop="thumbnail" alt="Image description" />
+          </a>
+      </figure>
+  </div>
+
+
+  <article class="flex-col">
+      <div class="col-l">
+          <h2>High-fidelity concept prototyping</h2>
+      </div>
+      <div class="col-r">
+          <p>Design iteration and refinement was ongoing through out the project. We used a subset of customers for feedback on the application in exchange for service.</p>
+      </div>
+  </article>
+
+
+  <article class="flex-col">
+      <div class="col-l">
+          <h2>Market-Product fit</h2>
+      </div>
+      <div class="col-r">
+          <p>The app was public and we drove traffic through promotions and advertising, however our customer base was still small. We formed a list of customers and potential customers who fit our target demographic and I constructed a semi-structured interview to sus out what we were doing wrong and what we should be doing.</p>
+          <p>The two main takeaways from the interviews were:
+              <ul>
+                  <li>The app is nice but too complex for what they wanted</li>
+                  <li>The homeowner would like to talk to someone, either over text or phone</li>
+              </ul>
+          </p>
+      </div>
+  </article>
+
+
+  <div class="gallery gallery-5" itemscope itemtype="http://schema.org/ImageGallery">
+      <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
+          <a href="images/full/full-8-1.jpg" itemprop="contentUrl" data-size="750x1334">
+              <img src="images/banner/banner-8.png" itemprop="thumbnail" alt="Image description" />
+          </a>
+          <figcaption itemprop="caption description">Final designs</figcaption>
+      </figure>
+
+      <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
+          <a href="images/full/full-8-2.jpg" itemprop="contentUrl" data-size="750x1334">
+              <img src="images/banner/banner-8.png" itemprop="thumbnail" alt="Image description" />
+          </a>
+      </figure>
+
+      <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
+          <a href="images/full/full-8-3.jpg" itemprop="contentUrl" data-size="750x1334">
+              <img src="images/banner/banner-8.png" itemprop="thumbnail" alt="Image description" />
+          </a>
+      </figure>
+
+      <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
+          <a href="images/full/full-8-4.jpg" itemprop="contentUrl" data-size="750x1334">
+              <img src="images/banner/banner-8.png" itemprop="thumbnail" alt="Image description" />
+          </a>
+      </figure>
+
+      <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
+          <a href="images/full/full-8-5.jpg" itemprop="contentUrl" data-size="750x1334">
+              <img src="images/banner/banner-8.png" itemprop="thumbnail" alt="Image description" />
+          </a>
+      </figure>
+
+      <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
+          <a href="images/full/full-8-6.jpg" itemprop="contentUrl" data-size="750x1334">
+              <img src="images/banner/banner-8.png" itemprop="thumbnail" alt="Image description" />
+          </a>
+      </figure>
+
+      <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
+          <a href="images/full/full-8-7.jpg" itemprop="contentUrl" data-size="750x1334">
+              <img src="images/banner/banner-8.png" itemprop="thumbnail" alt="Image description" />
+          </a>
+      </figure>
+  </div>
+
+  <article class="flex-col">
+      <div class="col-l">
+          <h2>Refinement</h2>
+      </div>
+      <div class="col-r">
+          <p>The solution we came up with to address the barriers of use was something called "Haven Now." It served as an asynchronous request to our customer CRM. A customer could call or text member services to discuss and schedule service. They would place the order in the admin site, which would then be reflected in the customer app as a transaction and item placed on their Punchlist.</p>
+      </div>
+  </article>
+
+</div>

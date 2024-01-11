@@ -1,3 +1,6 @@
+---
+---
+
 body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     font-weight: 300;
@@ -52,7 +55,7 @@ a:hover .banner-image {
     opacity: 1;
 }
 
-h1, h2, h3 {
+h1, h3 {
     text-transform: uppercase;
 }
 
@@ -74,14 +77,20 @@ h3, dt {
     margin-top: 0
 }
 
+dl {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
 dt {
-    float: left;
+  flex: 0 0 25%;
+  padding-top: 2px;
 }
 
 dd {
-    float:right;
-    width: 75%;
-    margin-bottom: 15px;
+  margin: 0 0 10px;
+  flex: 0 0 75%;
 }
 
 hr {
@@ -104,6 +113,19 @@ ul li {
 strong {
     font-weight: 500;
     font-size: 1em;
+}
+
+table {
+  margin: 10px 0;
+}
+
+table th {
+  text-align: left;
+  padding-right: 10px;
+}
+
+table td {
+  padding: 3px;
 }
 
 
@@ -140,29 +162,29 @@ strong {
     border-bottom: none;
 }
 
+.flex-col {
+  display: flex;
+}
+
 .col-l {
-    float: left;
-    width: calc(30% - 50px);
+    flex: 0 0 30%;
     margin-right: 50px;
     text-align: right;
 }
 
 .col-r {
-    float: right;
-    width: 70%;
+    flex: 0 0 70%;
     text-align: left;
 }
 
 .video-l {
-    float: left;
-    width: 300;
-    margin-right: 50px;
-    text-align: right;
+  flex: 0 0 350px;
+  margin-right: 50px;
+  display: flex;
+  justify-content: flex-end;
 }
 
 .video-r {
-    float: right;
-    width:  calc(100% - 350px);
     text-align: left;
 }
 
