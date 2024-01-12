@@ -16,6 +16,11 @@ header, footer {
 
 header {
     border-bottom: 1px solid #ddd;
+    position: fixed;
+    width: 100%;
+    top: -1px;
+    left: 0;
+    z-index: 999;
 }
 
 footer {
@@ -138,13 +143,12 @@ table td {
     font-weight: 300;
 }
 
-.inline {
-    display: inline-block;
+.spacer {
+    height: 90px;
 }
 
-.main {
-    position: relative;
-    z-index: 1000;
+.inline {
+    display: inline-block;
 }
 
 .content {
@@ -167,7 +171,7 @@ table td {
 }
 
 .col-l {
-    flex: 0 0 30%;
+    flex: 0 0 calc(30% - 50px);
     margin-right: 50px;
     text-align: right;
 }
