@@ -67,7 +67,11 @@ footer {
 }
 
 article {
-    margin-bottom: 100px;
+  margin: 50px 0;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
 }
 
 p, dd {
@@ -82,7 +86,6 @@ a {
 }
 
 a:hover {
-    background-color: #fff;
     color: #333;
 }
 
@@ -103,12 +106,12 @@ h1, h3 {
 
 h1 {
     color: #666;
-    font-size: 1.4em;
+    font-size: 1.6em;
     font-weight: 200;
 }
 
 h2 {
-    font-weight: 300;
+    font-weight: bold;
     font-size: 1.2em;
     margin-top: 0;
 }
@@ -143,13 +146,21 @@ hr {
 }
 
 ul {
-    margin: 0;
-    padding: 0;
+  margin: 0;
+  padding: 0;
+}
+
+ul.padded {
+  padding-left: 20px;
 }
 
 ul li {
-    margin-bottom: 10px;
-    list-style: circle;
+  margin-bottom: 10px;
+  list-style: disc;
+}
+
+.col-r ul li {
+    margin-bottom: 25px;
 }
 
 strong {
@@ -164,10 +175,24 @@ table {
 table th {
   text-align: left;
   padding-right: 10px;
+  background-color: #efefef;
+  padding: 10px;
+}
+
+table tr:nth-child(odd) {
+  background-color: #f9f9f9;
+}
+
+table tr:nth-child(even) {
+  background-color: #fff;
 }
 
 table td {
-  padding: 3px;
+  padding: 5px 10px;
+}
+
+.menu-target {
+  cursor: pointer;
 }
 
 #name {
@@ -304,7 +329,7 @@ table td {
     font-style: italic;
 }
 
-.about {
+.about, .intro, .contact {
     display: flex;
     justify-content: space-between;
     flex-direction: column;
@@ -313,9 +338,20 @@ table td {
     margin: 0 auto;
 }
 
+.intro-section {
+  background-color: #efefef;
+}
+
+.intro {
+  width: 80%;
+}
+
 .sample {
-    margin: 50px 25px;
-    display: inline-block;
+  display: inline-block;
+}
+
+.sample:last-child {
+  margin-bottom: 0;
 }
 
 .sample-thumb {

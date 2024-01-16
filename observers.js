@@ -21,6 +21,7 @@ observer.observe(el);
     sectionSelector: '.scroll-target',
     targetSelector: 'a.menu-target',
     activeClass: 'active',
+    hrefAttribute: 'data-href',
     onActive: (menuItem, section) => {
       document.querySelectorAll('header .menu-target')
         .forEach((el) => {
@@ -29,3 +30,11 @@ observer.observe(el);
     },
     offset: 140,
   })
+
+function handleOnClick(target) {
+  const el = document.querySelector(target)
+  window.scrollTo({
+    top: el.offsetTop - 139,
+    behavior: 'smooth',
+  })
+}

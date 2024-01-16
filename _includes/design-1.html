@@ -1,6 +1,6 @@
-<div class="section center">
-  <div class="about">
-    <h1>Outreach | Filter Design</h1>
+<div class="section center intro-section">
+  <div class="intro">
+    <h2>Outreach | Filter Design</h2>
 
     <p>Outreach is a sales engagement platform, with features built on top of the customer’s CRM data, mostly concerning
       the opportunity object. This object is a list of all potential sales opportunities in an organization’s pipeline
@@ -8,7 +8,7 @@
       portable and flexible filter-builder, handling very simple to very complex use cases, mostly targeting the
       customer’s opportunity object.</p>
 
-    <p>The following are high-level takeaways, my comprehensive design document can be read in-full here:</p>
+    <p>The following are high-level takeaways, my comprehensive design document can be read in-full here:<a href="FiltersDesignDocument.pdf"><img src="images/download.png" class="dlicon" /></a></p>
   </div>
 </div>
 
@@ -62,74 +62,74 @@
 
           <table>
             <tr>
+              <th>Supported Formats</th>
               <th>Comparator Operators</th>
               <th>UI input for data types</th>
-              <th>Supported Formats</th>
             </tr>
             <tr>
+              <td>currency</td>
               <td>Equal To</td>
               <td>Input</td>
-              <td>currency</td>
             </tr>
             <tr>
+              <td>int</td>
               <td>Not Equal To</td>
               <td>Multi-Input</td>
-              <td>int</td>
             </tr>
             <tr>
+              <td>percent</td>
               <td>Less Than</td>
               <td>Select</td>
-              <td>percent</td>
             </tr>
             <tr>
+              <td>email</td>
               <td>Greater Than</td>
               <td>Multi-Select</td>
-              <td>email</td>
             </tr>
             <tr>
+              <td>plaintextarea</td>
               <td>Greater Than Equal To</td>
               <td>Range</td>
-              <td>plaintextarea</td>
             </tr>
             <tr>
+              <td>richtextarea</td>
               <td>Less Than Equal To</td>
               <td></td>
-              <td>richtextarea</td>
             </tr>
             <tr>
+              <td>select</td>
               <td>Between</td>
               <td></td>
-              <td>select</td>
             </tr>
             <tr>
+              <td>text</td>
               <td>Not Between</td>
               <td></td>
-              <td>text</td>
             </tr>
             <tr>
+              <td>url</td>
               <td>In</td>
               <td></td>
-              <td>url</td>
             </tr>
             <tr>
+              <td>date</td>
               <td>Not In</td>
               <td></td>
-              <td>date</td>
             </tr>
             <tr>
+              <td>timestamp</td>
               <td>RegExp</td>
               <td></td>
-              <td>timestamp</td>
             </tr>
             <tr>
+              <td>float</td>
               <td>Not RegExp</td>
               <td></td>
-              <td>float</td>
             </tr>
             <tr>
-              <td></td>
-              <td></td>
               <td>location</td>
+              <td></td>
+              <td></td>
             </tr>
           </table>
         </li>
