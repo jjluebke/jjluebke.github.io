@@ -1,0 +1,264 @@
+<div class="section center">
+  <div class="about">
+    <h1>Outreach | Filter Design</h1>
+
+    <p>Outreach is a sales engagement platform, with features built on top of the customer’s CRM data, mostly concerning
+      the opportunity object. This object is a list of all potential sales opportunities in an organization’s pipeline
+      and can often be made up of hundreds of fields. I was tasked with describing, designing and ultimately building a
+      portable and flexible filter-builder, handling very simple to very complex use cases, mostly targeting the
+      customer’s opportunity object.</p>
+
+    <p>The following are high-level takeaways, my comprehensive design document can be read in-full here:</p>
+  </div>
+</div>
+
+<div class="section center">
+
+  <article class="flex-col">
+    <div class="col-l">
+      <h2>Product Requirements</h2>
+    </div>
+    <div class="col-r">
+      <ul>
+        <li>
+          <h3>Use of boolean logic</h3>
+          <p>
+            In order to support the dynamic nature of customer data along with the complex use-cases, boolean-logic
+            style filters were selected. While data comparison is based on the type, filter rules are combined with AND
+            and OR.</p>
+        </li>
+        <li>
+          <h3>Support for various/multiple data types</h3>
+          <table>
+            <tr>
+              <th colspan="2">Filterable data types</th>
+            </tr>
+            <tr>
+              <td>String</td>
+              <td>Integer</td>
+            </tr>
+            <tr>
+              <td>Floating point number</td>
+              <td>Boolean</td>
+            </tr>
+            <tr>
+              <td>Date</td>
+              <td>Timestamp</td>
+            </tr>
+            <tr>
+              <td>Raw (base64/binary data)</td>
+              <td>Array( of types defined )</td>
+            </tr>
+            <tr>
+              <td colspan="2">Object ( n-number of key/value pairs )</td>
+            </tr>
+          </table>
+        </li>
+
+        <li>
+          <h3>Data comparators and relevant UI control surfaces</h3>
+          <p>While the combination of filter rules are limited to that of AND and OR, data of a specified type may be
+            constrained with the following:</p>
+
+          <table>
+            <tr>
+              <th>Comparator Operators</th>
+              <th>UI input for data types</th>
+              <th>Supported Formats</th>
+            </tr>
+            <tr>
+              <td>Equal To</td>
+              <td>Input</td>
+              <td>currency</td>
+            </tr>
+            <tr>
+              <td>Not Equal To</td>
+              <td>Multi-Input</td>
+              <td>int</td>
+            </tr>
+            <tr>
+              <td>Less Than</td>
+              <td>Select</td>
+              <td>percent</td>
+            </tr>
+            <tr>
+              <td>Greater Than</td>
+              <td>Multi-Select</td>
+              <td>email</td>
+            </tr>
+            <tr>
+              <td>Greater Than Equal To</td>
+              <td>Range</td>
+              <td>plaintextarea</td>
+            </tr>
+            <tr>
+              <td>Less Than Equal To</td>
+              <td></td>
+              <td>richtextarea</td>
+            </tr>
+            <tr>
+              <td>Between</td>
+              <td></td>
+              <td>select</td>
+            </tr>
+            <tr>
+              <td>Not Between</td>
+              <td></td>
+              <td>text</td>
+            </tr>
+            <tr>
+              <td>In</td>
+              <td></td>
+              <td>url</td>
+            </tr>
+            <tr>
+              <td>Not In</td>
+              <td></td>
+              <td>date</td>
+            </tr>
+            <tr>
+              <td>RegExp</td>
+              <td></td>
+              <td>timestamp</td>
+            </tr>
+            <tr>
+              <td>Not RegExp</td>
+              <td></td>
+              <td>float</td>
+            </tr>
+            <tr>
+              <td></td>
+              <td></td>
+              <td>location</td>
+            </tr>
+          </table>
+        </li>
+    </div>
+  </article>
+
+  <article class="flex-col">
+    <div class="col-l">
+      <h2>UX Requirements</h2>
+    </div>
+    <div class="col-r">
+      <ul>
+        <li>
+          <h3>Support simple to very complex logic</h3>
+          <p>Most often, only a few filters may need to be applied to generate the desired result however a user may
+            need to apply many filters using a combination of logical operators to achieve the desired result. The
+            control must allow for both the simple use-case without being intimidating while supporting a power-user to
+            create the complex.</p>
+        </li>
+        <li>
+          <h3>Compact</h3>
+          <p>By design, the number/size of filters is not limited and can become very complex. The design needs to allow
+            for one to many filters and filter groups to be applied while still remaining readable.</p>
+        </li>
+        <li>
+          <h3>Constrain user input to prevent impossible filter combinations</h3>
+          <p>A user could combine filters in an illogical way that would allow for either ambiguity or guaranteed null
+            results. In order to provide a good experience, the components must enforce certain rules by providing
+            relevant feedback/errors, preforming actions on behalf of the user and hiding/showing options in a given
+            situation.</p>
+        </li>
+      </ul>
+    </div>
+  </article>
+
+  <div class="gallery gallery-9" itemscope itemtype="http://schema.org/ImageGallery">
+    <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
+      <a href="images/full/full-9-1.png" itemprop="contentUrl" data-size="1582x1114">
+        <img src="images/banner/banner-9.png" itemprop="thumbnail" alt="Image description" />
+      </a>
+      <figcaption itemprop="caption description">Filter Design Options</figcaption>
+    </figure>
+
+    <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
+      <a href="images/full/full-9-2.png" itemprop="contentUrl" data-size="1600x1016">
+        <img src="images/banner/banner-9.png" itemprop="thumbnail" alt="Image description" />
+      </a>
+      <figcaption itemprop="caption description">Filter Design Options</figcaption>
+    </figure>
+  </div>
+
+  <article class="flex-col">
+    <div class="col-l">
+      <h2>Describing Patterns</h2>
+    </div>
+    <div class="col-r">
+      <p>Where the existing opportunity filter used a subtractive approach, the final design uses an additive pattern to
+        build the filter. These two types are depicted below:</p>
+
+      <h3>Subtractive filtering pattern</h3>
+      <p>This is a common pattern, typically when the content has a finite set of criteria on which to filter. For
+        example many e-commerce sites utilize this type of filtering, where all options are listed and selecting one
+        reduces the main result set. This is not ideal for a Commit customers as their data is driven by CRM which does
+        not limit the number and type of data fields that can be defined.</p>
+
+      <h3>Additive filtering pattern</h3>
+      <p>This approach is to start with no parameters and add in only what is relevant. It renders a clean empty state
+        that is less visually intimidating than presenting all the possible filters up-front. This pattern is less
+        common among consumer and e-commerce sites, and more common in digital applications that interface with large
+        data-sets, such as geographic, weather, documents and financial.</p>
+    </div>
+  </article>
+
+  <div class="gallery gallery-10" itemscope itemtype="http://schema.org/ImageGallery">
+    <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
+      <a href="images/full/full-10-1.png" itemprop="contentUrl" data-size="2304x2726">
+        <img src="images/banner/banner-10.png" itemprop="thumbnail" alt="Image description" />
+      </a>
+      <figcaption itemprop="caption description">Design Concepts</figcaption>
+    </figure>
+  </div>
+
+  <article class="flex-col">
+    <div class="col-l">
+      <h2>Design Iterations</h2>
+    </div>
+    <div class="col-r">
+      <p>I created three designs to explore concepts, working with my product manager and UX team to gain feedback of
+        what works and what doesn't. The designs are disucced in brief below.</p>
+
+      <h3>Concept 1</h3>
+      <p>This design does a good job at minimizing the complexity, albeit at the expense of readability. The
+        consolidated filter condition removes too much information, requiring the user to click into the item to
+        understand the full definition of the filter. Additionally, the portability of the filter conditions does not
+        offer much in the way of clearly defining boolean grouping logic.</p>
+
+      <h3>Concept 2</h3>
+      <p>This design is clear and functional allowing flexibility and clarity, however, limits the amount of complexity
+        a user can define. Filters are confined to group, located a static depth.While this would likely serve the needs
+        of most users, the server-side model allows for infinite nesting of groups of filter definitions, which is
+        realized in the next design iteration.</p>
+
+      <h3>Concept 3</h3>
+      <p>This approach extends the previous design by allowing for the creation of groups within groups. Indeed, the
+        data structure can quickly become complex, but only as much as the user desires. The graphical group structure
+        does well to demonstrate boolean relationships while serving as combiner user input.</p>
+    </div>
+  </article>
+
+  <article class="flex-col">
+    <div class="col-l">
+      <h2>Functional Prototype</h2>
+    </div>
+    <div class="col-r">
+      <p>I created a functional prototype of the final design to test with users. The prototype was built using React
+        and consumed static data. The prototype was used to catch any usability issues as well as to validade the
+        generated object structure. Most of the React components were reused in the final deliverable.</p>
+    </div>
+  </article>
+
+  <article class="flex-col">
+    <div class="col-l">
+      <h2>Final Implementation</h2>
+    </div>
+    <div class="col-r">
+      <p>After buliding the production version of this component, it was implemented in several disparate areas of the
+        client/admin apps. The current version has undergone design iterations, however has served as a model for other
+        filtering applications within the organization. The example below shows an implementation with a real-time data
+        preview to validate filter results.</p>
+    </div>
+  </article>
+</div>

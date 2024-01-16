@@ -2,43 +2,80 @@
 layout: default
 ---
 
-<div class="section center">
-    <div class="about">
-        <h1>A bit about myself</h1>
+<div class="section center scroll-target" id="about" style="padding-top: 140px">
+  <div class="about">
+    <h1>A bit about me</h1>
 
-        <p>I'm a software engineer and user-experience designer. I love working with small teams, exploring new ideas, and iterating on problems. I have a wide variety of technical skills, experience in software design, and enjoy challenging projects.</p>
-    </div>
+    <p>I'm a software engineer and user-experience designer. I love working with small teams, exploring new ideas, and iterating on problems. I have a wide variety of technical skills, experience in software design, and enjoy challenging projects.</p>
+  </div>
+</div>
+
+<div class="section center" id="design">
+
+  <h1>Work Samples: Design</h1>
+  <div class="items sticky design">
+    <ul>
+      <li><a class="menu-target" href="#design-1">Sample 1</a></li>
+      <li><a class="menu-target" href="#design-2">Sample 2</a></li>
+    </ul>
+  </div>
+  <div class="sample scroll-target" id="design-1" data-menu="design">
+    {% include design-1.html %}
+  </div>
+  <div class="sample scroll-target" id="design-2" data-menu="design">
+    {% include design-2.html %}
+  </div>
 
 </div>
 
-<div class="section center">
-
-    <h1>work samples</h1>
-
-    <section class='samples center'>
-
-        <a href="sample-1" class="sample"><div class="sample-thumb sample-thumb-1"></div><h2 class="inline">Process</h2></a>
-        <a href="sample-2" class="sample"><div class="sample-thumb sample-thumb-2"></div><h2 class="inline">Design</h2></a>
-        <a href="sample-3" class="sample"><div class="sample-thumb sample-thumb-3"></div><h2 class="inline">Development</h2></a>
-
-    </section>
-
+<div class="section center" id="development">
+  <h1>Work Samples: Development</h1>
+  <div class="items sticky development">
+    <ul>
+      <li><a class="menu-target" href="#development-1">Sample 1</a></li>
+      <li><a class="menu-target" href="#development-2">Sample 2</a></li>
+      <li><a class="menu-target" href="#development-3">Sample 3</a></li>
+      <li><a class="menu-target" href="#development-4">Sample 4</a></li>
+    </ul>
+  </div>
+  <div class="sample scroll-target" id="development-1" data-menu="development">
+    {% include development-1.html %}
+  </div>
+  <div class="sample scroll-target" id="development-2" data-menu="development">
+    {% include development-2.html %}
+  </div>
+  <div class="sample scroll-target" id="development-3" data-menu="development">
+    {% include development-3.html %}
+  </div>
+  <div class="sample scroll-target" id="development-4" data-menu="development">
+    {% include development-4.html %}
+  </div>
 </div>
 
-<div class="section center">
+<div class="section center" id="process">
+  <h1>Work Samples: Process</h1>
+  <div class="items sticky process">
+    <ul>
+      <li><a class="menu-target" href="#process-1">Sample 1</a></li>
+    </ul>
+  </div>
+  <div class="sample scroll-target" id="process-1" data-menu="process">
+    {% include process.html %}
+  </div>
+</div>
 
-    <div class="about">
-        <h1>connect with me</h1>
+<div class="section center scroll-target" id="contact">
+  <div class="about">
+    <h1>connect with me</h1>
 
-        <p>I find I am happiest when learning something new, and find that inspiration comes from outside the screen. I would love to have a chat!</p>
+    <p>I find I am happiest when learning something new, and find that inspiration comes from outside the screen. I would love to have a chat!</p>
 
-        <div class="items" style="padding:0; float:none">
-            <ul style="padding:0;">
-                <li><a href="mailto: jjluebke@gmail.com">jjluebke@gmail.com</a></li>
-                <li><a href="tel:3176254458">(317) 625-4458</a></li>
-                <li><a href="JasonLuebke.pdf"><img src="images/download.png" class="dlicon" /> Download Resume</a></li>
-            </ul>
-        </div>
+    <div class="items" style="padding:0; float:none">
+      <ul style="padding:0;">
+        <li><a href="mailto: jjluebke@gmail.com">jjluebke@gmail.com</a></li>
+        <li><a href="tel:3176254458">(317) 625-4458</a></li>
+        <li><a href="JasonLuebke.pdf"><img src="images/download.png" class="dlicon" /> Download Resume</a></li>
+      </ul>
     </div>
-
+  </div>
 </div>
